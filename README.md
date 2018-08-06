@@ -1,5 +1,24 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+To Run the app in local
+1. clone the repo
+2. npm install inside the repo dir
+3. npm start to see the app on 8000 port on local
+
+Assumptions:
+
+1. The Data is fetched from a mock Api http://www.mocky.io/v2/5b68caaf3300008a3a32dd9c
+   response : array of objects of structure 
+   {
+ "id": "123-s2-546",
+ "name": "John Jacobs",
+ "items": ["bucket", "bottle" ],
+ "address": "1st Cross, 9th Main, abc Apartment",
+ "pincode": "5xx012"
+}
+2. babel does the ES6 to ES5 Magic at build time
+3.
+
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
