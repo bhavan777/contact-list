@@ -16,8 +16,9 @@ class App extends Component {
     }
     this.handleSearch = this.handleSearch.bind(this);
     this.hideDropdown = this.hideDropdown.bind(this);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMove = this.handleMove.bind(this);
     this.handleKeyNavigation = this.handleKeyNavigation.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleSearch(e){
@@ -31,6 +32,12 @@ class App extends Component {
       visible =false;
     }
     this.setState({ddVisible: visible, searchTerm: val, visibleContacts: newcontacts, activeItem: newcontacts.length> 0 ?newcontacts[0].id: 0});
+  }
+
+  handleClick(id) {
+    let selectedCard = this.state.visibleContacts.filter(item => item.id === id);
+    console.log(selectedCard);
+    this.setState({selectedCard: selectedCard[0], ddVisible:false});
   }
 
   handleKeyNavigation (e){
@@ -56,16 +63,22 @@ class App extends Component {
           }
         }
       }
+    } else if( e.keyCode === 13) {
+      let selectedCard = this.state.visibleContacts.filter(item => item.id === id);
+      console.log(selectedCard);
+      this.setState({selectedCard: selectedCard[0], ddVisible:false});
     }
     this.setState({activeItem:newid});
   }
 
   hideDropdown() {
-    this.setState({ddVisible: false});
+    setTimeout(() => {
+      this.setState({ddVisible: false});      
+    }, 200);
   }
 
-  handleMouseEnter(id) {
-    this.setState({activeItem: id});
+  handleMove(id) {
+    this.setState({activeItem: id, ddVisible: true});
   }
 
   componentDidUpdate() {
@@ -88,35 +101,40 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
+          <div className="dropdown" onBlurCapture = {this.hideDropdown}>
+            {this.state.dataLoaded ? 
+            (<input 
+            placeholder='type to search through contacts' 
+            value={this.state.searchTerm} 
+            onKeyDown={this.handleKeyNavigation} 
+            onChange={this.handleSearch} 
+            />) : (<p className='loader'></p>)
+            }
+            {
+              this.state.ddVisible && (
+              <ul id='dropdown-list'>
+                { this.state.visibleContacts.length >0 ?
+                  this.state.visibleContacts.map((contact)=> {
+                    return (
+                    <Item key={contact.id}
+                    isActive={this.state.activeItem === contact.id} 
+                    contact ={contact} searchTerm = {this.state.searchTerm} 
+                    mouseMove ={this.handleMove} 
+                    handleClick = {this.handleClick}
+                    />)
+                  })
+                  : (<li className='empty-list'><p>No User found</p></li>)
+                }
+              </ul>
+              )
+            }
+          </div>
         </header>
-        <div className="dropdown">
-          {this.state.dataLoaded ? 
-          (<input 
-          placeholder='type to search through contacts' 
-          value={this.state.searchTerm} 
-          onKeyDown={this.handleKeyNavigation} 
-          onBlur={this.hideDropdown} 
-          onChange={this.handleSearch} 
-          />) : (<p className='loader'></p>)
-          }
-          {
-            this.state.ddVisible && (
-            <ul id='dropdown-list'>
-              { this.state.visibleContacts.length >0 ?
-                this.state.visibleContacts.map((contact)=> {
-                  return (
-                  <Item key={contact.id}
-                  isActive={this.state.activeItem === contact.id} 
-                  contact ={contact} searchTerm = {this.state.searchTerm} 
-                  mouseEnter ={this.handleMouseEnter} 
-                  />)
-                })
-                : (<li className='empty-list'><p>No User found</p></li>)
-              }
-            </ul>
-            )
-          }
-        </div>
+        {this.state.selectedCard &&
+        (<div className='result'>
+          <Item type='div' contact ={this.state.selectedCard}  />
+         </div>)
+        }
       </div>
     );
   }
