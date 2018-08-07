@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import Item from '../components/Item';
 import '../styles/dropdown.css';
-class Dropdown extends Component {
+class Dropdown extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
