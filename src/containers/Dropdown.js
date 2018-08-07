@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Item from '../components/Item';
+import '../styles/dropdown.css';
 class Dropdown extends Component {
   constructor(props) {
     super(props);
@@ -15,10 +16,12 @@ class Dropdown extends Component {
     this.handleKeyNavigation = this.handleKeyNavigation.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    // this.mouseEnter = this.mouseEnter.bind(this);
+    // this.mouseLeave = this.mouseLeave.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
-    if(props.loaded != state.loaded) {
+    if(props.loaded !== state.loaded) {
       return ({...props, visibleContacts: props.contacts});
     }
     return null;
@@ -34,7 +37,6 @@ class Dropdown extends Component {
     } else {
       visible =false;
     }
-    console.log(newcontacts);
     this.setState({isDDVisible: visible, searchTerm: val, visibleContacts: newcontacts, activeItem: newcontacts.length> 0 ?newcontacts[0].id: 0});
   }
 
@@ -65,48 +67,37 @@ class Dropdown extends Component {
         }
       }
     } else if( e.keyCode === 13) {
-      let selectedCard = this.state.visibleContacts.filter(item => item.id === id);
-      this.setState({selectedCard: selectedCard[0], isDDVisible:false});
+      this.props.showResult(id);
+      this.hideDropdown();
     } else if(e.keyCode === 27) {
-      this.setState({isDDVisible:false});
+      this.hideDropdown();
     }
     e.target.value = val;
     this.setState({activeItem:newid});
   }
-
   componentDidUpdate() {
     let activeComp =  document.querySelectorAll('li.active')[0];
     if(activeComp) {
       activeComp.scrollIntoView({behavior: "instant", block: "nearest", inline: "nearest"});
     }
   }
-
   handleMove(id) {
     this.setState({activeItem: id, isDDVisible: true});
   }
-
   handleClick(id) {
-    let selectedCard = this.state.visibleContacts.filter(item => item.id === id);
-    console.log(selectedCard);
-    this.setState({selectedCard: selectedCard[0], isDDVisible:false});
+    this.props.showResult(id);
   }
-
-
-  hideDropdown() {
+  hideDropdown(delay=0) {
     setTimeout(() => {
       this.setState({isDDVisible: false});      
-    }, 200);
+    }, delay);
   }
-
-
-
-
-
   render() {
     return (
-      <div className="dropdown" onBlurCapture={this.hideDropdown}>
+      <div className="dropdown" onBlur={this.hideDropdown.bind(this, 200)}>
       {this.state.loaded ? 
-      (<input 
+      (<input
+      className={`dropdown-input ${this.state.isDDVisible ? 'open': ''}`}
       placeholder='type to search through contacts' 
       value={this.state.searchTerm}
       onKeyDown={this.handleKeyNavigation} 
@@ -115,7 +106,7 @@ class Dropdown extends Component {
       }
       {
         this.state.isDDVisible && (
-        <ul id='dropdown-list'>
+        <ul className='dropdown-list' id='dropdown-list'>
           { this.state.visibleContacts.length >0 ?
             this.state.visibleContacts.map((contact)=> {
               return (
@@ -124,7 +115,7 @@ class Dropdown extends Component {
               contact ={contact}
               searchTerm = {this.state.searchTerm} 
               mouseMove ={this.handleMove.bind(this, contact.id)}
-              // handleClick = {this.handleClick}
+              handleClick = {this.handleClick.bind(this,contact.id)}
               />)
             })
             : (<li className='empty-list'><p>No User found</p></li>)

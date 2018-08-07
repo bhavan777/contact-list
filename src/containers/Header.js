@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import Dropdown from './Dropdown';
+import '../styles/header.css';
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loaded: this.props.dataLoaded,
-      contacts: this.props.contacts
     }
   }
   static getDerivedStateFromProps(props, state) {
@@ -21,7 +21,7 @@ class Header extends Component {
   render() {
     return(
         <header className="App-header">
-          <Dropdown {...this.state} />
+          <Dropdown {...this.state} showResult={this.props.showResult} />
         </header>
         );
     }

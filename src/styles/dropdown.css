@@ -1,0 +1,100 @@
+@keyframes fadeIn {
+  from { transform: translateY(-5px); opacity: 0.3;}
+  to { transform: translateY(0px); opacity: 1;}
+}
+
+
+.dropdown {
+  position: relative;
+  margin: 0 auto;
+  width: 300px;
+  border-radius: 3px;
+}
+.dropdown-input {
+  height: 40px;
+  width: 100%;
+  font-size: 16px;
+  color: #222;
+  font-weight: 300;
+  outline: 0;
+  line-height: 40px;
+  border: 0;
+  border-radius: 2px;
+  padding:0 15px;
+  animation: fadeIn 1 .3s linear;
+}
+.dropdown-input.open {
+  border-radius: 2px 2px 0 0;
+
+}
+.dropdown-list {
+  list-style: none;
+  max-height: 360px;
+  overflow: hidden;
+  overflow-y: auto;
+  width: 100%;
+  box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.1),0px 0px 0px 1px rgba(0,0,0,0.1);
+  position: absolute;
+  top: 40px;
+  background-color: #fff;
+  left: 0;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-list-item,
+.empty-list {
+  height: 120px;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  border-bottom: thin solid rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-wrap: wrap;
+}
+li.active {
+  box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.05);
+  background-color: #0072ff14;
+}
+
+
+li.empty-list {
+  border: 0;
+  color: #444;
+  justify-content: center;
+}
+
+li h5 {
+  font-size: 16px;
+  font-weight: 300;
+  color: #222222;
+  width: 100%;
+}
+li .small {
+  line-height: 1.34;
+  font-size: 13px;
+  font-weight: 300;
+  color: #777;
+  width: 100%;
+}
+li .smaller {
+  font-size: 12px;
+  font-weight: 300;
+  color: #AAA;
+}
+
+
+b {
+  font-weight: 400;
+  color: #000;
+  background-color: yellow;
+  transition: all 0.1s linear;
+}
+
+li.active b {
+  background-color: orange;
+  transition: all 0.1s linear;
+}

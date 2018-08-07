@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import '../App.css';
-// import Item from './Item.js'
+import '../styles/App.css';
 import Header from '../containers/Header';
-
+import ResultCard from '../components/ResultCard';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -10,8 +9,10 @@ class App extends Component {
       contacts: [],
       searchTerm: '',
       activeItem: 0,
-      dataLoaded: false
+      dataLoaded: false,
+      result: []
     }
+    this.showResult = this.showResult.bind(this);
   }
 
   componentDidMount() {
@@ -20,17 +21,22 @@ class App extends Component {
     .then(data=>{
       let contacts = Array.from(data);
       this.setState({contacts: contacts, dataLoaded: true});
-    })
+    });
+  }
+
+  showResult(id) {
+    let res = this.state.contacts.filter(item => item.id === id);
+    this.setState({result: res[0]});  
   }
 
   render() {
     return (
       <div className="App">
-        <Header {...this.state}/>
-        {this.state.selectedCard &&
-        (<div className='result'>
-          {/* <Item type='div' contact ={this.state.selectedCard}  /> */}
-         </div>)
+        <Header {...this.state} showResult={this.showResult}/>
+        {(this.state.result.length !== 0) &&
+        (
+          <ResultCard {...this.state.result}/>
+         )
         }
       </div>
     );

@@ -1,0 +1,44 @@
+.result {
+  max-width: 400px;
+  margin: 0 auto;
+  height: 70vh;
+  display: flex; 
+  align-content: center;
+  align-items: center;
+}
+.result .card {
+  min-height: 200px;
+  display: flex;
+  box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1);
+  flex-flow: column;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.card .header {
+  font-weight: 300;
+  color: white;
+  width: 100%;
+  padding: 0 20px;
+  text-align: left;
+  background-color: teal;
+  line-height: 3;
+}
+.card .body {
+  padding: 20px;
+  text-align: left;
+  line-height: 2;
+  color: #666;
+}
+.card .body p {
+  margin-top: 10px;
+}
+.card .title {
+  color: #222;
+  border-bottom: thin solid rgba(0,0,0,0.1);
+  margin-right: 5px;
+  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
